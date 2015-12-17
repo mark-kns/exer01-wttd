@@ -46,6 +46,34 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
+def print_words(filename):
+    texto = ""
+    palavras = []
+    dic = {}
+    with open(filename) as file:
+        for palavra in file:
+            texto += palavra.lower()
+
+    palavras = texto.split()
+
+    for palavra in palavras:
+        if palavra not in dic.keys():
+            dic[palavra] = 1
+        else:
+            dic[palavra] += 1
+
+    for palavra in dic:
+        print("Palavra %s - %d vez(es)" %(palavra, dic[palavra]))
+    return dic
+
+def print_top(filename):
+    lista = []
+    dic = print_words(filename)
+    lista = sorted(dic.items(), key=lambda palavra:palavra[1], reverse = True)
+    for cont in range(20):
+        print("%dº - Palavra %s - %d vez(es)" %(cont + 1, lista[cont][0], lista[cont][1]))
+    return
+
 ###
 
 # This basic command line argument parsing code is provided and

@@ -46,15 +46,28 @@ import sys
 
 
 def mimic_dict(filename):
-  """Returns mimic dict mapping each word to list of words which follow it."""
-  # +++your code here+++
-  return
+    texto = ""
+    palavras = []
+    dic = {}
+    with open(filename) as file:
+        for palavra in file:
+            texto += palavra.lower()
+
+    palavras = texto.split(' ')
+
+    for cont in range(len(palavras)):
+        if palavras[cont] not in dic.keys():
+            dic[palavras[cont]] = palavras[cont + 1:]
+
+    return dic
 
 
 def print_mimic(mimic_dict, word):
-  """Given mimic dict and start word, prints 200 random words."""
+    palavra = word
+    for cont in range(200):
+        print(random.choice(mimic_dict[palavra]))
   # +++your code here+++
-  return
+    return
 
 
 # Provided main(), calls mimic_dict() and mimic()

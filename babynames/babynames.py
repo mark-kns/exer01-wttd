@@ -36,6 +36,56 @@ Suggested milestones for incremental development:
 
 
 def extract_names(filename):
+    texto = ''
+    lista = []
+    lista_aux = []
+    dic = {}
+    pos2 = 0
+    pos3 = 0
+    nome_boy = ''
+    nome_girl = ''
+    valor =''
+    aux = 1
+
+    with open(filename) as file:
+        for palavra in file:
+            texto += palavra
+
+    pos = texto.find('Popularity in')
+
+    lista.append(texto[pos + 14:pos + 18])
+
+    while pos != -1:
+        pos = texto.find('"right"><td>', pos + 1)
+        valor = texto[pos + 12]
+        while texto[pos + 12 + aux] != '<':
+            valor += texto[pos + 12 + aux]
+            aux +=1
+        aux = 1
+
+        pos2 = texto.find('</td><td>', pos + 1)
+        nome_boy = texto[pos2 + 9]
+        while texto[pos2 + 9 + aux] != '<':
+            nome_boy += texto[pos2 + 9 + aux]
+            aux += 1
+        aux = 1
+
+        pos2 = texto.find('</td><td>', pos2 + 1)
+        nome_girl = texto[pos2 + 9]
+        while texto[pos2 + 9 + aux] != '<':
+            nome_girl += texto[pos2 + 9 + aux]
+            aux += 1
+        aux = 1
+
+        if valor != 'e>Popular Baby Names':
+
+            lista_aux.append(nome_boy + ' ' + valor)
+            lista_aux.append(nome_girl + ' ' + valor)
+
+    lista_aux.sort()
+    lista += lista_aux
+    print(lista)
+
     """
     Given a file name for baby.html, returns a list starting with the year string
     followed by the name-rank strings in alphabetical order.
@@ -60,6 +110,8 @@ def main():
     if args[0] == '--summaryfile':
         summary = True
         del args[0]
+
+        extract_names(args[0])
 
         # +++your code here+++
         # For each filename, get the names, then either print the text output
